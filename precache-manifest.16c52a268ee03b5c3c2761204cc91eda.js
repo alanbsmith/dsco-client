@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "de1c72544ad5cb115f9a439e53db75d9",
+    "revision": "d961c5b7605b27cccfa502d319cb8acf",
     "url": "/dsco-client/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dsco-client/static/js/2.18bffbdf.chunk.js"
   },
   {
-    "revision": "220fe4050c30391014a0",
-    "url": "/dsco-client/static/js/main.419ba740.chunk.js"
+    "revision": "fe76de86df9050d98882",
+    "url": "/dsco-client/static/js/main.444b4a84.chunk.js"
   },
   {
     "revision": "11437b00a5b906949067",
