@@ -61,7 +61,7 @@ export const TopNav = () => {
   return (
     <Navbar>
       <Box alignItems="center">
-        <MenuToggleButton onClick={() => setLeftNavOpen(!isLeftNavOpen)}>𝌆</MenuToggleButton>
+        <MenuToggleButton aria-label="toggle side nav menu" aria-pressed={isLeftNavOpen} onClick={() => setLeftNavOpen(!isLeftNavOpen)}>𝌆</MenuToggleButton>
         <BrandLink to="/">DSCO</BrandLink>
       </Box>
       {currentUser &&

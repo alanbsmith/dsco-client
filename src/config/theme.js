@@ -10,15 +10,17 @@ const white = 'hsl(198, 0%, 100%)';
 const secondary = 'hsl(198, 100%, 25%)';
 
 const danger = 'hsl(348, 100%, 45%)';
-const dangerLight = 'hsl(348, 100%, 75%)';
 const dangerDark = 'hsl(348, 100%, 15%)';
+const dangerLight = 'hsl(348, 100%, 75%)';
 const info = 'hsl(198, 100%, 45%)';
+const infoDark = 'hsl(198, 100%, 15%)';
 const infoLight = 'hsl(198, 100%, 75%)';
 const success = 'hsl(168, 100%, 45%)';
+const successDark = 'hsl(168, 100%, 15%)';
 const successLight = 'hsl(168, 100%, 75%)';
 const warning = 'hsl(48, 100%, 50%)';
+const warningDark = 'hsl(48, 100%, 15%)';
 const warningLight = 'hsl(48, 100%, 75%)';
-
 
 const theme = {
   // dimensions
@@ -56,15 +58,15 @@ const theme = {
     linkFocus: info,
     // status colors
     success,
-    successDark: 'hsl(168, 100%, 15%)',
+    successDark,
     successLight,
 
     info,
-    infoDark: 'hsl(198, 100%, 15%)',
+    infoDark,
     infoLight,
 
     warning,
-    warningDark: 'hsl(48, 100%, 15%)',
+    warningDark,
     warningLight,
 
     danger,
@@ -120,6 +122,24 @@ const theme = {
     },
   },
   textFields: {
+    danger: {
+      background: dangerLight,
+      color: dangerDark,
+    }
+  },
+  alerts: {
+    success: {
+      background: successLight,
+      color: successDark,
+    },
+    info: {
+      background: infoLight,
+      color: infoDark,
+    },
+    warning: {
+      background: warningLight,
+      color: warningDark,
+    },
     danger: {
       background: dangerLight,
       color: dangerDark,

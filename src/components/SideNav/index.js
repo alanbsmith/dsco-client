@@ -117,7 +117,7 @@ export const SideNav = ({ handleClose, isOpen }) => {
         {isOpen && (
           <>
             <Header>
-              <MenuToggleButton autoFocus onClick={handleClose}>𝌆</MenuToggleButton>
+              <MenuToggleButton autoFocus aria-label="close side nav menu" aria-pressed={!isOpen} onClick={handleClose}>𝌆</MenuToggleButton>
               <h1 style={{ color: '#fff' }}>Design Systems</h1>
               <Text color="chrome080" textTransform="uppercase" letterSpacing="2px" fontSize="sm">colorado</Text>
             </Header>
