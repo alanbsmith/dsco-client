@@ -3,34 +3,62 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'emotion-theming';
 import { Global } from '@emotion/core';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import App from './App';
+// providers
+import { CurrentUserProvider } from './providers/CurrentUser';
 // pages
-import { Events } from './pages/Events';
+import { Account } from './pages/Account';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
-
+// routes
+import { ProtectedRoute } from './routes/ProtectedRoute';
+// sw
 import * as serviceWorker from './serviceWorker';
 
 import theme from './config/theme';
 import globalStyles from './config/globalStyles';
+import { AuthToken } from './utils/authToken';
+
+const uri = process.env.NODE_ENV === 'production' ? 'https://dsco-api.herokuapp.com/api' : 'http://localhost:8080/api';
+
+const client = new ApolloClient({
+  uri,
+  fetchOptions: {
+    credentials: 'include',
+  },
+  request: operation => {
+    const token = AuthToken.get();
+    operation.setContext({
+      headers: {
+        authorization: token ? `${token}` : '',
+      },
+    });
+  },
+});
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Global styles={globalStyles} />
-    <BrowserRouter>
-      <App>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/events" component={Events} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route component={Home} />
-        </Switch>
-      </App>
-    </BrowserRouter>
-  </ThemeProvider>,
+  <ApolloProvider client={client}>
+    <CurrentUserProvider>
+      <ThemeProvider theme={theme}>
+        <Global styles={globalStyles} />
+        <BrowserRouter>
+          <App>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <ProtectedRoute exact path="/account" component={Account} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route component={Home} />
+            </Switch>
+          </App>
+        </BrowserRouter>
+      </ThemeProvider>
+    </CurrentUserProvider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

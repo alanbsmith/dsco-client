@@ -9,12 +9,14 @@ const white = 'hsl(198, 0%, 100%)';
 
 const danger = 'hsl(348, 100%, 45%)';
 const dangerLight = 'hsl(348, 100%, 75%)';
+const dangerDark = 'hsl(348, 100%, 15%)';
 const info = 'hsl(198, 100%, 45%)';
 const infoLight = 'hsl(198, 100%, 75%)';
 const success = 'hsl(168, 100%, 45%)';
 const successLight = 'hsl(168, 100%, 75%)';
 const warning = 'hsl(48, 100%, 50%)';
 const warningLight = 'hsl(48, 100%, 75%)';
+
 
 const theme = {
   // dimensions
@@ -62,11 +64,16 @@ const theme = {
     warningLight,
 
     danger,
-    dangerDark: 'hsl(348, 100%, 15%)',
+    dangerDark,
     dangerLight,
   },
   // variants
   buttons: {
+    disabled: {
+      cursor: 'initial',
+      background: chrome092,
+      color: chrome040,
+    },
     primary: {
       background: success,
       '&:hover, &:focus': {
@@ -108,6 +115,12 @@ const theme = {
       },
     },
   },
+  textFields: {
+    danger: {
+      background: dangerLight,
+      color: dangerDark,
+    }
+  }
 };
 
 export default theme;

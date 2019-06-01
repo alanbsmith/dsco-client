@@ -3,13 +3,15 @@ import styled from '@emotion/styled';
 import { themeGet } from 'styled-system';
 import { Link } from 'react-router-dom';
 
-import { Flexbox } from '../../elements/Flex';
+import { Box } from '../../elements/Box';
 
 import { SideNav } from '../SideNav';
 
+import { useCurrentUser } from '../../providers/CurrentUser';
+
 import { px2rem } from '../../config/utils';
 
-export const Navbar = styled(Flexbox)`
+export const Navbar = styled(Box)`
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -53,14 +55,19 @@ MenuToggleButton.defaultProps = {
 };
 
 export const TopNav = () => {
+  const { currentUser } = useCurrentUser();
   const [isLeftNavOpen, setLeftNavOpen] = useState(false);
 
   return (
     <Navbar>
-      <Flexbox alignItems="center">
+      <Box alignItems="center">
         <MenuToggleButton onClick={() => setLeftNavOpen(!isLeftNavOpen)}>𝌆</MenuToggleButton>
         <BrandLink to="/">DSCO</BrandLink>
-      </Flexbox>
+      </Box>
+      {currentUser &&
+        <NavLink to="/account">
+          Hi, {currentUser.firstName}!
+        </NavLink>}
       <SideNav isOpen={isLeftNavOpen} handleClose={() => setLeftNavOpen(false)} />
     </Navbar>
   );

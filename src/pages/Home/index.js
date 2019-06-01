@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { PageLayout } from '../components/PageLayout';
-import { Heading } from '../elements/Heading';
-import { Text } from '../elements/Text';
+import { PageLayout } from '../../components/PageLayout';
+import { Heading } from '../../elements/Heading';
+import { Text } from '../../elements/Text';
 
 export const Home = () => (
   <>
