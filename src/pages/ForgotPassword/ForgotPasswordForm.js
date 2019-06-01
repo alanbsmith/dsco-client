@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Formik, Form as FormikForm } from 'formik';
 import * as yup from 'yup';
 // components
+import { useAlerts } from '../../providers/Alerts';
 import { ValidatedTextField } from '../../components/ValidatedTextField';
 // elements
 import { Button } from '../../elements/Button';
@@ -27,6 +28,7 @@ const forgotPasswordSchema = yup.object().shape({
 });
 
 export function ForgotPasswordForm() {
+  const { addAlert } = useAlerts();
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
 
   const initialValues = {
@@ -37,12 +39,14 @@ export function ForgotPasswordForm() {
     await forgotPassword({ variables: { input: values } }).then(({ data }) => {
 
       if (data.forgotPassword.status) {
-        console.log(data.forgotPassword.status)
+        addAlert({ type: 'success', message: 'Thanks! If an account exists we\'ll send you an email to reset your password.' })
         return <Redirect to="/login" />
       }
     }).catch(err => {
-      console.log(err)
-      console.log('ERROR: ', err.message)
+      // TODO: improve GraphQL error messages
+      const message = err.message.split('GraphQL error:')[1];
+      addAlert({ type: 'danger', message })
+      console.warn('ERROR: ', err)
     });
   }
 

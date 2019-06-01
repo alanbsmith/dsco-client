@@ -6,6 +6,7 @@ import * as yup from 'yup';
 // utils
 import { AuthToken } from '../../utils/authToken';
 // providers
+import { useAlerts } from '../../providers/Alerts';
 import { useCurrentUser } from '../../providers/CurrentUser';
 import { currentUserParams } from '../../providers/CurrentUser/query';
 // components
@@ -38,6 +39,7 @@ const resetPasswordSchema = yup.object().shape({
 });
 
 export function ResetPasswordForm({ tokenParam }) {
+  const { addAlert } = useAlerts();
   const { setCurrentUser } = useCurrentUser();
   const [resetPassword] = useMutation(RESET_PASSWORD);
 
@@ -53,10 +55,13 @@ export function ResetPasswordForm({ tokenParam }) {
 
       if (data.resetPassword.user) {
         setCurrentUser(data.resetPassword.user)
+        addAlert({ type: 'success', message: 'Your password has been reset!' })
       }
     }).catch(err => {
-      console.log(err)
-      console.log('ERROR: ', err.message)
+      // TODO: improve GraphQL error messages
+      const message = err.message.split('GraphQL error:')[1];
+      addAlert({ type: 'danger', message })
+      console.warn('ERROR: ', err)
     });
   }
 

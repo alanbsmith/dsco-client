@@ -6,6 +6,7 @@ import * as yup from 'yup';
 // utils
 import { AuthToken } from '../../utils/authToken';
 // providers
+import { useAlerts } from '../../providers/Alerts';
 import { useCurrentUser } from '../../providers/CurrentUser';
 import { currentUserParams } from '../../providers/CurrentUser/query';
 // components
@@ -39,6 +40,7 @@ const loginSchema = yup.object().shape({
 });
 
 export function LoginForm() {
+  const { addAlert } = useAlerts();
   const { setCurrentUser } = useCurrentUser();
   const [login] = useMutation(LOGIN);
 
@@ -55,8 +57,10 @@ export function LoginForm() {
         setCurrentUser(data.login.user)
       }
     }).catch(err => {
-      console.log(err)
-      console.log('ERROR: ', err.message)
+      // TODO: improve GraphQL error messages
+      const message = err.message.split('GraphQL error:')[1];
+      addAlert({ type: 'danger', message })
+      console.warn('ERROR: ', err)
     });
   }
 

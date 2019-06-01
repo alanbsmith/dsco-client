@@ -7,6 +7,7 @@ import * as yup from 'yup';
 // utils
 import { AuthToken } from '../../utils/authToken';
 // providers
+import { useAlerts } from '../../providers/Alerts';
 import { useCurrentUser } from '../../providers/CurrentUser';
 import { currentUserParams } from '../../providers/CurrentUser/query';
 // components
@@ -29,6 +30,7 @@ const SIGNUP = gql`
 `;
 
 export function SignupForm() {
+  const { addAlert } = useAlerts();
   const { setCurrentUser } = useCurrentUser();
   const [signup] = useMutation(SIGNUP);
 
@@ -73,10 +75,13 @@ export function SignupForm() {
 
       if (data.signup.user) {
         setCurrentUser(data.signup.user)
+        addAlert({ type: 'success', message: 'Your account has been created! Welcome to DSCO!' })
       }
     }).catch(err => {
-      console.log(err)
-      console.log('ERROR: ', err.message)
+      // TODO: improve GraphQL error messages
+      const message = err.message.split('GraphQL error:')[1];
+      addAlert({ type: 'danger', message })
+      console.warn('ERROR: ', err)
     });
   }
 
@@ -93,7 +98,7 @@ export function SignupForm() {
             <ValidatedTextField name="lastName" label="last name" errors={errors} touched={touched} flex={1} ml={2} />
           </Box>
           <ValidatedTextField name="email" errors={errors} touched={touched} />
-          <ValidatedTextField name="phone" errors={errors} touched={touched} />
+          <ValidatedTextField name="phone" label="Phone (Optional)" errors={errors} touched={touched} />
           <ValidatedTextField name="password" type="password" errors={errors} touched={touched} />
           <ValidatedTextField name="passwordConfirm" label="confirm password" type="password" errors={errors} touched={touched} />
           <ButtonList>
