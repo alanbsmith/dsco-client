@@ -7,6 +7,8 @@ const chrome040 = 'hsl(198, 10%, 40%)';
 const chrome092 = 'hsl(198, 10%, 92%)';
 const white = 'hsl(198, 0%, 100%)';
 
+const secondary = 'hsl(198, 100%, 25%)';
+
 const danger = 'hsl(348, 100%, 45%)';
 const dangerLight = 'hsl(348, 100%, 75%)';
 const dangerDark = 'hsl(348, 100%, 15%)';
@@ -48,8 +50,10 @@ const theme = {
     chrome100: white,
     // ui colors
     primary: success,
-    secondary: 'hsl(198, 100%, 25%)',
+    secondary,
     text: chrome020,
+    link: secondary,
+    linkFocus: info,
     // status colors
     success,
     successDark: 'hsl(168, 100%, 15%)',

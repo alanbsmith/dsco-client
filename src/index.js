@@ -11,8 +11,10 @@ import App from './App';
 import { CurrentUserProvider } from './providers/CurrentUser';
 // pages
 import { Account } from './pages/Account';
+import { ForgotPassword } from './pages/ForgotPassword';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { ResetPassword } from './pages/ResetPassword';
 import { Signup } from './pages/Signup';
 // routes
 import { ProtectedRoute } from './routes/ProtectedRoute';
@@ -50,7 +52,9 @@ ReactDOM.render(
             <Switch>
               <Route exact path="/" component={Home} />
               <ProtectedRoute exact path="/account" component={Account} />
+              <Route exact path="/forgot_password" component={ForgotPassword} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/reset_password" component={ResetPassword} />
               <Route exact path="/signup" component={Signup} />
               <Route component={Home} />
             </Switch>

@@ -11,7 +11,7 @@ export const ValidatedTextField = ({ name, label, type, touched, errors, ...prop
   return (
     <Box position="relative" flexDirection="column" {...props}>
       <Label htmlFor={name}>{labelText}</Label>
-      <TextField as={Field} variant={hasError && 'danger'} name={name} type={type} />
+      <TextField as={Field} id={name} variant={hasError && 'danger'} name={name} type={type} />
       <ErrorMessage name={name} component={TextField.ErrorMessage} />
     </Box>
   );
