@@ -11,15 +11,13 @@ import { currentUserParams } from '../../providers/CurrentUser/query';
 // components
 import { ValidatedTextField } from '../../components/ValidatedTextField';
 // elements
-import { Box } from '../../elements/Box';
 import { Button } from '../../elements/Button';
 import { ButtonList } from '../../elements/ButtonList';
 import { Form } from '../../elements/Form';
-import { Link } from '../../elements/Link';
 
-const LOGIN = gql`
-  mutation Login($input: UserCredentials!) {
-    login(input: $input) {
+const RESET_PASSWORD = gql`
+  mutation ResetPassword($input: ResetPasswordCredentials!) {
+    resetPassword(input: $input) {
       user {
         ${currentUserParams}
       }
@@ -28,31 +26,33 @@ const LOGIN = gql`
   }
 `;
 
-const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email()
-    .required('Email is required'),
+const resetPasswordSchema = yup.object().shape({
   password: yup
     .string()
     .required('Password is required')
+    .min(8, 'Password must be at least 8 characters'),
+  passwordConfirm: yup
+    .string()
+    .required('Password confirmation is required')
+    .oneOf([yup.ref('password')], 'Passwords do not match')
 });
 
-export function LoginForm() {
+export function ResetPasswordForm({ tokenParam }) {
   const { setCurrentUser } = useCurrentUser();
-  const [login] = useMutation(LOGIN);
+  const [resetPassword] = useMutation(RESET_PASSWORD);
 
   const initialValues = {
-    email: '',
     password: '',
+    passwordConfirm: '',
   }
 
-  async function handleSubmit(values) {
-    await login({ variables: { input: values } }).then(({ data }) => {
-      AuthToken.set(data.login.token);
+  async function handleSubmit({ password }) {
+    const credentials = { password, token: tokenParam };
+    await resetPassword({ variables: { input: credentials } }).then(({ data }) => {
+      AuthToken.set(data.resetPassword.token);
 
-      if (data.login.user) {
-        setCurrentUser(data.login.user)
+      if (data.resetPassword.user) {
+        setCurrentUser(data.resetPassword.user)
       }
     }).catch(err => {
       console.log(err)
@@ -63,25 +63,18 @@ export function LoginForm() {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={loginSchema}
+      validationSchema={resetPasswordSchema}
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isValid }) => (
         <Form as={FormikForm}>
-          <ValidatedTextField errors={errors} touched={touched} name="email" />
-          <ValidatedTextField errors={errors} touched={touched} name="password" type="password" />
-
+          <ValidatedTextField name="password" type="password" errors={errors} touched={touched} />
+          <ValidatedTextField name="passwordConfirm" label="confirm password" type="password" errors={errors} touched={touched} />
           <ButtonList>
-            <Button variant="ghost" as={Link} to="/signup">
-              Signup
-        </Button>
-            <Button type="submit" disabled={!isValid} variant={isValid ? 'primary' : 'disabled'}>Login</Button>
+            <Button type="submit" disabled={!isValid} variant={isValid ? 'primary' : 'disabled'}>Submit</Button>
           </ButtonList>
-          <Box justifyContent="flex-end" mt={2}>
-            <Link to="/forgot_password" fontSize="sm">Forgot Password?</Link>
-          </Box>
         </Form>
       )}
     </Formik>
-  )
+  );
 }
