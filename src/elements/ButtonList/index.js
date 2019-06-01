@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { Flexbox } from '../Flex';
+import { Box } from '../Box';
 import { px2rem } from '../../config/utils';
 
-export const ButtonList = styled(Flexbox)`
+export const ButtonList = styled(Box)`
   justify-content: flex-end;
   margin: ${px2rem(16)} 0;
 

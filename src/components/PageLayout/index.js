@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { themeGet } from 'styled-system';
 
-import { Flexbox } from '../../elements/Flex';
+import { Box } from '../../elements/Box';
 import { px2rem } from '../../config/utils';
 
 import logo from './logo.svg';
 
-export const Header = styled(Flexbox)`
+export const Header = styled(Box)`
   background-color: ${themeGet('colors.chrome092')};
 
   background-position: 50% 40%;
@@ -23,7 +23,7 @@ Header.defaultProps = {
   as: 'header',
 };
 
-export const Main = styled(Flexbox)`
+export const Main = styled(Box)`
   flex: 1;
   flex-direction: column;
   padding: ${px2rem(32)} ${px2rem(16)};
@@ -34,7 +34,7 @@ Main.defaultProps = {
   bg: 'chrome098',
 };
 
-export const Footer = styled(Flexbox)`
+export const Footer = styled(Box)`
   padding: ${px2rem(16)};
   flex-direction: column;
   min-height: ${px2rem(112)};

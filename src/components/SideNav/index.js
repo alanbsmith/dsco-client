@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { themeGet } from 'styled-system';
 
-import { Flexbox } from '../../elements/Flex';
+import { Box } from '../../elements/Box';
 import { Text } from '../../elements/Text';
 import { Base } from '../../primitives/Base';
 import { px2rem } from '../../config/utils';
+
+import { useCurrentUser } from '../../providers/CurrentUser';
 
 export const SideDrawer = Base('nav')`
   background: ${themeGet('colors.chrome010')};
@@ -24,7 +26,7 @@ export const SideDrawer = Base('nav')`
   }
 `;
 
-const Header = Base(Flexbox)`
+const Header = Base(Box)`
   background: ${themeGet('colors.chrome020')};
   flex-direction: column;
   min-height: ${px2rem(192)};
@@ -33,13 +35,13 @@ const Header = Base(Flexbox)`
   position: relative;
 `;
 
-const Body = Base(Flexbox)`
+const Body = Base(Box)`
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
 `;
 
-const Footer = Base(Flexbox)`
+const Footer = Base(Box)`
   border-top: 1px solid ${themeGet('colors.chrome040')};
   display: flex;
   margin: 0 ${px2rem(16)};
@@ -101,40 +103,42 @@ const SideDrawerMask = Base()`
 `;
 
 export const SideNav = ({ handleClose, isOpen }) => {
+  const { resetCurrentUser, currentUser } = useCurrentUser();
+
+  function handleLogout() {
+    resetCurrentUser();
+    return handleClose();
+  }
+
   return (
     <>
-    <SideDrawerMask className={isOpen ? 'visible' : ''} onClick={handleClose} />
-    <SideDrawer className={isOpen ? 'open' : ''}>
-      <Header>
-        <ToggleButton hidden={!isOpen} handleClick={handleClose} />
-      <h1 style={{ color: '#fff'}}>Design Systems</h1>
-      <Text color="chrome080" textTransform="uppercase" letterSpacing="2px" fontSize="sm">colorado</Text>
-      </Header>
-      <Body>
-        <NavList>
-          <NavListItem><NavLink onClick={handleClose} to="/">home</NavLink></NavListItem>
-          <NavListItem><NavLink onClick={handleClose} to="/events">events</NavLink></NavListItem>
-        </NavList>
-      </Body>
-      <Footer>
-      <NavLink onClick={handleClose} to="/login">login</NavLink>
-      </Footer>
-    </SideDrawer>
+      <SideDrawerMask className={isOpen ? 'visible' : ''} onClick={handleClose} />
+      <SideDrawer className={isOpen ? 'open' : ''}>
+        {isOpen && (
+          <>
+            <Header>
+              <MenuToggleButton autoFocus onClick={handleClose}>𝌆</MenuToggleButton>
+              <h1 style={{ color: '#fff' }}>Design Systems</h1>
+              <Text color="chrome080" textTransform="uppercase" letterSpacing="2px" fontSize="sm">colorado</Text>
+            </Header>
+            <Body>
+              <NavList>
+                <NavListItem><NavLink onClick={handleClose} to="/">home</NavLink></NavListItem>
+                {currentUser
+                  ? <NavListItem><NavLink onClick={handleClose} to="/account">your account</NavLink></NavListItem>
+                  : (<NavListItem>
+                    <NavLink onClick={handleClose} to="/login">login</NavLink>{' '}/{' '}
+                    <NavLink onClick={handleClose} to="/signup">signup</NavLink>
+                  </NavListItem>)
+                }
+              </NavList>
+            </Body>
+            <Footer>
+              {currentUser && <NavLink onClick={handleLogout} to="/">logout</NavLink>}
+            </Footer>
+          </>
+        )}
+      </SideDrawer>
     </>
   )
-}
-
-SideNav.defaultProps = {
-  isOpen: false,
-}
-
-const ToggleButton = (props) => {
-  if (props.hidden) {
-    return null;
-  }
-  return <MenuToggleButton autoFocus onClick={props.handleClick}>𝌆</MenuToggleButton>
-}
-
-ToggleButton.defaultProps = {
-  hidden: true,
 }
