@@ -7,7 +7,7 @@ export const currentUserParams = `
   lastName
   email
   phone
-  isOrganizer
+  isAdmin
   hasVerifiedEmail
   hasVerifiedPhone
 `;

@@ -32,7 +32,7 @@ export const CurrentUserProvider = props => {
       return setLoading(false);
     }
     if (err) {
-      console.err(err);
+      console.warn(err);
       return setLoading(false);
     }
   }
@@ -55,6 +55,7 @@ export const useCurrentUser = () => {
 
   return {
     currentUser: context.currentUser,
+    currentUserLoading: context.isLoading,
     resetCurrentUser,
     setCurrentUser: context.setCurrentUser,
   };
