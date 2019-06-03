@@ -13,6 +13,7 @@ export const ResetPassword = (props) => {
   const { currentUser } = useCurrentUser();
   const hasTokenParam = /^\?token=.+$/.test(props.location.search);
   const tokenParam = hasTokenParam ? props.location.search.split('?token=')[1] : '';
+
   if (currentUser || !hasTokenParam) {
     return <Redirect to="/" />
   }
