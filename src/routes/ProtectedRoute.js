@@ -2,11 +2,10 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { useCurrentUser } from '../providers/CurrentUser';
-
 export const ProtectedRoute = props => {
-  const { currentUser, isLoading } = useCurrentUser();
+  const { currentUser, currentUserLoading } = useCurrentUser();
 
-  if (isLoading) {
+  if (currentUserLoading !== false) {
     return <>loading...</>
   }
 

@@ -32,9 +32,9 @@ const theme = {
     sm: px2rem(14),
     md: px2rem(16),
     lg: px2rem(18),
-    h4: px2rem(20),
-    h3: px2rem(24),
-    h2: px2rem(28),
+    xl: px2rem(20),
+    h3: px2rem(14),
+    h2: px2rem(20),
     h1: px2rem(32),
   },
   fontWeights: {
@@ -91,6 +91,14 @@ const theme = {
       color: chrome040,
       '&:hover, &:focus': {
         background: chrome092,
+        color: chrome020,
+      },
+    },
+    ghostDanger: {
+      background: 'transparent',
+      color: chrome040,
+      '&:hover, &:focus': {
+        background: dangerLight,
         color: chrome020,
       },
     },

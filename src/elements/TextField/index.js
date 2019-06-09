@@ -3,7 +3,7 @@ import { themeGet, variant } from 'styled-system';
 import { Base } from '../../primitives/Base';
 import { px2rem } from '../../config/utils';
 
-import { ErrorMessage } from './ErrorMessage';
+import { FieldErrorMessage } from '../FieldErrorMessage';
 
 const textFieldVariants = variant({
   key: 'textFields',
@@ -21,7 +21,7 @@ export const TextField = Base('input')`
   ${textFieldVariants}
 `;
 
-TextField.ErrorMessage = ErrorMessage;
+TextField.ErrorMessage = FieldErrorMessage;
 
 TextField.defaultProps = {
   type: 'text',

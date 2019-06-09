@@ -4,16 +4,17 @@ import { themeGet } from 'styled-system';
 import { Box } from '../../elements/Box';
 import { px2rem } from '../../config/utils';
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import logo2 from './logo2.svg';
 
 export const Header = styled(Box)`
   background-color: ${themeGet('colors.chrome092')};
 
   background-position: 50% 40%;
   background-repeat: no-repeat;
-  background-image: url(${logo});
+  background-image: url(${logo2});
   flex-direction: column;
-  margin-top: ${px2rem(56)};
+  margin-top: ${px2rem(40)};
   min-height: ${px2rem(192)};
   padding: ${px2rem(16)};
   justify-content: flex-end;
@@ -37,7 +38,7 @@ Main.defaultProps = {
 export const Footer = styled(Box)`
   padding: ${px2rem(16)};
   flex-direction: column;
-  min-height: ${px2rem(112)};
+  min-height: ${px2rem(64)};
 `;
 
 Footer.defaultProps = {

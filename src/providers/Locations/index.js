@@ -1,55 +1,68 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { createContext, useContext, useEffect, useReducer, useMemo } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { locationsQuery } from './query';
+import { useAlerts } from '../Alerts';
+
+import * as ActionTypes from './ActionTypes';
+import LocationsService from './service';
+import { locationsQuery, createLocation, updateLocation, destroyLocation } from './queries';
+import { initialState, reducer } from './reducer';
 
 const LocationsContext = createContext();
 
 export const LocationsProvider = props => {
-  const [locations, setLocations] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { data, loading, err } = useQuery(locationsQuery());
 
   const value = useMemo(
-    () => {
-      return {
-        locations,
-        setLocations,
-        isLoading,
-      };
-    },
-    [locations, isLoading]
+    () => ({
+      state,
+      dispatch
+    }),
+    [state, dispatch]
   );
 
-  function handleUpdate() {
+  function fetchLocations() {
     if (loading) {
-      return setLoading(loading);
+      return dispatch({
+        type: ActionTypes.FETCH_LOCATIONS_REQUEST
+      });
     }
     if (!loading && data) {
-      setLocations(data.locations);
-      return setLoading(false);
+      return dispatch({
+        type: ActionTypes.FETCH_LOCATIONS_SUCCESS,
+        payload: data.locations,
+      });
     }
     if (err) {
-      console.warn(err);
-      return setLoading(false);
+      return dispatch({
+        type: ActionTypes.FETCH_LOCATIONS_FAILURE
+      });
     }
   }
 
-  useEffect(handleUpdate, [loading]);
+  useEffect(fetchLocations, [loading]);
 
   return <LocationsContext.Provider value={value} {...props} />;
 };
 
-export const useLocations = () => {
+export function useLocations() {
   const context = useContext(LocationsContext);
+  const [create] = useMutation(createLocation());
+  const [update] = useMutation(updateLocation());
+  const [destroy] = useMutation(destroyLocation());
+  const { addAlert } = useAlerts();
+
+  const locationsService = new LocationsService(context.dispatch, addAlert, create, update, destroy);
+
   if (!context) {
     throw new Error(`useLocations must be used within a LocationsProvider`);
   }
 
   return {
-    locations: context.Locations,
-    locationsLoading: context.isLoading,
-    setLocations: context.setLocations,
+    locations: context.state.locations,
+    locationsLoading: context.state.loading,
+    dispatch: context.dispatch,
+    locationsService,
   };
 };
-

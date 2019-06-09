@@ -1,15 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
 import { Formik, Form as FormikForm } from 'formik';
 import * as yup from 'yup';
-// utils
-import { AuthToken } from '../../utils/authToken';
 // providers
-import { useAlerts } from '../../providers/Alerts';
 import { useCurrentUser } from '../../providers/CurrentUser';
-import { currentUserParams } from '../../providers/CurrentUser/query';
 // components
 import { ValidatedTextField } from '../../components/ValidatedTextField';
 // elements
@@ -18,21 +12,8 @@ import { ButtonList } from '../../elements/ButtonList';
 import { Box } from '../../elements/Box';
 import { Form } from '../../elements/Form';
 
-const SIGNUP = gql`
-  mutation Signup($input: SignupInput!) {
-    signup(input: $input) {
-      user {
-        ${currentUserParams}
-      }
-      token
-    }
-  }
-`;
-
 export function SignupForm() {
-  const { addAlert } = useAlerts();
-  const { setCurrentUser } = useCurrentUser();
-  const [signup] = useMutation(SIGNUP);
+  const { currentUserService } = useCurrentUser();
 
   const initialValues = {
     firstName: '',
@@ -41,17 +22,17 @@ export function SignupForm() {
     phone: '',
     password: '',
     passwordConfirm: '',
-  }
+  };
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   const signupSchema = yup.object().shape({
     firstName: yup
       .string('First name is required')
-      .required('Last name is required'),
+      .required('First name is required'),
     lastName: yup
       .string()
-      .required(),
+      .required('Last name is required'),
     email: yup
       .string()
       .email('Must be a valid email address')
@@ -64,25 +45,17 @@ export function SignupForm() {
       .min(8, 'Password must be at least 8 characters'),
     passwordConfirm: yup
       .string()
-      .required('Password confirmation is required')
-      .oneOf([yup.ref('password')], 'Passwords do not match')
+      .when('password', (password, schema) => {
+        return password
+          && schema
+            .required('Password confirmation is required')
+            .oneOf([yup.ref('password')], 'Passwords do not match')
+      }),
   });
 
 
-  async function handleSubmit({ passwordConfirm, ...values }) {
-    await signup({ variables: { input: values } }).then(({ data }) => {
-      AuthToken.set(data.signup.token);
-
-      if (data.signup.user) {
-        setCurrentUser(data.signup.user)
-        addAlert({ type: 'success', message: 'Your account has been created! Welcome to DSCO!' })
-      }
-    }).catch(err => {
-      // TODO: improve GraphQL error messages
-      const message = err.message.split('GraphQL error:')[1];
-      addAlert({ type: 'danger', message })
-      console.warn('ERROR: ', err)
-    });
+  function handleSubmit({ passwordConfirm, ...values }) {
+    return currentUserService.signup(values);
   }
 
   return (
@@ -91,7 +64,7 @@ export function SignupForm() {
       validationSchema={signupSchema}
       onSubmit={handleSubmit}
     >
-      {({ errors, touched, isValid, ...props }) => (
+      {({ errors, touched, isValid, values, ...props }) => (
         <Form as={FormikForm}>
           <Box>
             <ValidatedTextField name="firstName" label="first name" errors={errors} touched={touched} flex={1} mr={2} />
@@ -100,7 +73,7 @@ export function SignupForm() {
           <ValidatedTextField name="email" errors={errors} touched={touched} />
           <ValidatedTextField name="phone" label="Phone (Optional)" errors={errors} touched={touched} />
           <ValidatedTextField name="password" type="password" errors={errors} touched={touched} />
-          <ValidatedTextField name="passwordConfirm" label="confirm password" type="password" errors={errors} touched={touched} />
+          <ValidatedTextField disabled={!values.password.length} name="passwordConfirm" label="confirm password" type="password" errors={errors} touched={touched} />
           <ButtonList>
             <Button variant="ghost" as={Link} to="/login">Login</Button>
             <Button type="submit" disabled={!isValid} variant={isValid ? 'primary' : 'disabled'}>Signup</Button>

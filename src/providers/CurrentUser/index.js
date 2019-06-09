@@ -1,62 +1,103 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { createContext, useContext, useEffect, useReducer, useMemo } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { AuthToken } from '../../utils/authToken';
+import { useAlerts } from '../Alerts';
 
-import { currentUserQuery } from './query';
+import * as ActionTypes from './ActionTypes';
+import CurrentUserService from './service';
+import { initialState, reducer } from './reducer';
+import {
+  currentUserQuery,
+  LOGIN,
+  SIGNUP,
+  VERIFY_EMAIL,
+  FORGOT_PASSWORD,
+  RESET_PASSWORD,
+  UPDATE_CURRENT_USER,
+  DESTROY_CURRENT_USER,
+} from './queries';
 
 const CurrentUserContext = createContext();
 
 export const CurrentUserProvider = props => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const { data, loading, err } = useQuery(currentUserQuery());
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { data, loading, err, refetch } = useQuery(currentUserQuery());
 
   const value = useMemo(
     () => {
       return {
-        currentUser,
-        setCurrentUser,
-        isLoading,
+        state,
+        dispatch,
+        refetch,
       };
     },
-    [currentUser, isLoading]
+    [state, dispatch, refetch]
   );
 
-  function handleUpdate() {
+  function fetchCurrentUser() {
     if (loading) {
-      return setLoading(loading);
+      return dispatch({
+        type: ActionTypes.FETCH_CURRENT_USER_REQUEST,
+      });
     }
     if (!loading && data) {
-      setCurrentUser(data.currentUser);
-      return setLoading(false);
+      return dispatch({
+        type: ActionTypes.FETCH_CURRENT_USER_SUCCESS,
+        payload: data.currentUser
+      });
     }
     if (err) {
       console.warn(err);
-      return setLoading(false);
+      return dispatch({
+        type: ActionTypes.FETCH_CURRENT_USER_FAILURE
+      })
     }
   }
 
-  useEffect(handleUpdate, [loading]);
+  useEffect(fetchCurrentUser, [loading]);
 
   return <CurrentUserContext.Provider value={value} {...props} />;
 };
 
 export const useCurrentUser = () => {
   const context = useContext(CurrentUserContext);
+  const { addAlert } = useAlerts();
+  const [login] = useMutation(LOGIN);
+  const [signup] = useMutation(SIGNUP);
+  const [verifyEmail] = useMutation(VERIFY_EMAIL);
+  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
+  const [resetPassword] = useMutation(RESET_PASSWORD);
+  const [updateCurrentUser] = useMutation(UPDATE_CURRENT_USER);
+  const [destroyCurrentUser] = useMutation(DESTROY_CURRENT_USER);
+
+  const currentUserService = new CurrentUserService({
+    dispatch: context.dispatch,
+    addAlert,
+    login,
+    signup,
+    verifyEmail,
+    forgotPassword,
+    resetPassword,
+    updateCurrentUser,
+    destroyCurrentUser,
+    refetch: context.dispatch,
+  });
+
   if (!context) {
     throw new Error(`useCurrentUser must be used within a CurrentUserProvider`);
   }
 
-  function resetCurrentUser() {
-    AuthToken.delete();
-    return context.setCurrentUser(null);
+  function logout() {
+    return context.dispatch({
+      type: ActionTypes.LOGOUT
+    })
   }
 
   return {
-    currentUser: context.currentUser,
-    currentUserLoading: context.isLoading,
-    resetCurrentUser,
-    setCurrentUser: context.setCurrentUser,
+    currentUser: context.state.currentUser,
+    currentUserLoading: context.state.loading,
+    dispatch: context.dispatch,
+    logout,
+    currentUserService,
   };
 };
