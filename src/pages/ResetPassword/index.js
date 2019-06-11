@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 // providers
 import { useCurrentUser } from '../../providers/CurrentUser';
 // page-specific components
@@ -9,13 +8,13 @@ import { PageLayout } from '../../components/PageLayout';
 // elements
 import { Heading } from '../../elements/Heading';
 
-export const ResetPassword = (props) => {
+export const ResetPassword = ({ match, history }) => {
   const { currentUser } = useCurrentUser();
-  const hasTokenParam = /^\?token=.+$/.test(props.location.search);
-  const tokenParam = hasTokenParam ? props.location.search.split('?token=')[1] : '';
+  const { token } = match.params;
 
-  if (currentUser || !hasTokenParam) {
-    return <Redirect to="/" />
+  // no shenanigans :)
+  if (currentUser || !token) {
+    return history.push('/');
   }
 
   return (
@@ -24,7 +23,7 @@ export const ResetPassword = (props) => {
         <Heading>Reset Password</Heading>
       </PageLayout.Header>
       <PageLayout.Main>
-        <ResetPasswordForm tokenParam={tokenParam} />
+        <ResetPasswordForm token={token} />
       </PageLayout.Main>
     </>
   )

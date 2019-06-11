@@ -11,7 +11,8 @@ const alertVariants = variant({
 });
 
 export const AlertBanner = styled(Box)`
-  padding: ${px2rem(8)};
+  padding: ${px2rem(4)};
+  margin: ${px2rem(4)} 0;
   font-size: ${themeGet('fontSizes.md')};
   justify-content: space-between;
 

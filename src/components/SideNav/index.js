@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { themeGet } from 'styled-system';
 
 import { Box } from '../../elements/Box';
-import { Text } from '../../elements/Text';
 import { Base } from '../../primitives/Base';
 import { px2rem } from '../../config/utils';
 
 import { useCurrentUser } from '../../providers/CurrentUser';
+import { Heading } from '../../elements/Heading';
 
 export const SideDrawer = Base('nav')`
   background: ${themeGet('colors.chrome010')};
@@ -103,10 +103,10 @@ const SideDrawerMask = Base()`
 `;
 
 export const SideNav = ({ handleClose, isOpen }) => {
-  const { resetCurrentUser, currentUser } = useCurrentUser();
+  const { logout, currentUser } = useCurrentUser();
 
   function handleLogout() {
-    resetCurrentUser();
+    logout();
     return handleClose();
   }
 
@@ -118,8 +118,7 @@ export const SideNav = ({ handleClose, isOpen }) => {
           <>
             <Header>
               <MenuToggleButton autoFocus aria-label="close side nav menu" aria-pressed={!isOpen} onClick={handleClose}>𝌆</MenuToggleButton>
-              <h1 style={{ color: '#fff' }}>Design Systems</h1>
-              <Text color="chrome080" textTransform="uppercase" letterSpacing="2px" fontSize="sm">colorado</Text>
+              <Heading letterSpacing="0.25rem" fontWeight="400" color="white" as="h2">DSCO</Heading>
             </Header>
             <Body>
               <NavList>

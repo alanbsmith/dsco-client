@@ -1,24 +1,14 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
 import { Formik, Form as FormikForm } from 'formik';
 import * as yup from 'yup';
 // components
-import { useAlerts } from '../../providers/Alerts';
+import { useCurrentUser } from '../../providers/CurrentUser';
 import { ValidatedTextField } from '../../components/ValidatedTextField';
 // elements
 import { Button } from '../../elements/Button';
 import { ButtonList } from '../../elements/ButtonList';
 import { Form } from '../../elements/Form';
-
-const FORGOT_PASSWORD = gql`
-  mutation ForgotPassword($input: ForgotPasswordInput!) {
-    forgotPassword(input: $input) {
-      status
-    }
-  }
-`;
 
 const forgotPasswordSchema = yup.object().shape({
   email: yup
@@ -28,26 +18,15 @@ const forgotPasswordSchema = yup.object().shape({
 });
 
 export function ForgotPasswordForm() {
-  const { addAlert } = useAlerts();
-  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
+  const { currentUserService } = useCurrentUser();
 
   const initialValues = {
     email: '',
   }
 
-  async function handleSubmit(values) {
-    await forgotPassword({ variables: { input: values } }).then(({ data }) => {
-
-      if (data.forgotPassword.status) {
-        addAlert({ type: 'success', message: 'Thanks! If an account exists we\'ll send you an email to reset your password.' })
-        return <Redirect to="/login" />
-      }
-    }).catch(err => {
-      // TODO: improve GraphQL error messages
-      const message = err.message.split('GraphQL error:')[1];
-      addAlert({ type: 'danger', message })
-      console.warn('ERROR: ', err)
-    });
+  function handleSubmit(values) {
+    currentUserService.forgotPassword(values);
+    return <Redirect to="/" />;
   }
 
   return (

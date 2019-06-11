@@ -16,8 +16,8 @@ export const Navbar = styled(Box)`
   display: flex;
   justify-content: space-between;
   left: 0;
-  min-height: ${px2rem(56)};
-  padding: ${px2rem(8)};
+  min-height: ${px2rem(40)};
+  padding: ${px2rem(4)}; ${px2rem(8)};
   position: fixed;
   right: 0;
   top: 0;

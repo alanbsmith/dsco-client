@@ -12,6 +12,7 @@ import { Heading } from '../../elements/Heading';
 export const ForgotPassword = () => {
   const { currentUser } = useCurrentUser();
 
+  // no shenanigans :)
   if (currentUser) {
     return <Redirect to="/" />
   }

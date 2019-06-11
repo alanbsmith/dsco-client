@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // providers
 import { useAlerts } from '../../providers/Alerts';
 // component-specific elements
@@ -10,7 +10,19 @@ import { Text } from '../../elements/Text';
 
 export const AppAlerts = () => {
   const { alerts, removeAlert } = useAlerts();
-  const appAlerts = alerts.map(({ message, timeStamp, type }) => (
+
+  useEffect(() => {
+    // auto remove alerts
+    const interval = setInterval(() => {
+      if (alerts.length) {
+        return removeAlert(alerts[0].timeStamp);
+      }
+    }, 5000)
+    return () => clearInterval(interval);
+  }, [alerts, removeAlert])
+
+
+  const appAlerts = alerts.map(({ message, timeStamp, type }, i) => (
     <AlertBanner key={timeStamp} variant={type}>
       <Box flex={1} p={2}>
         <Text>{message}</Text>

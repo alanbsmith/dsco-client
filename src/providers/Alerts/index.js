@@ -4,7 +4,6 @@ const AlertsContext = createContext();
 
 export const AlertsProvider = props => {
   const [alerts, setAlerts] = useState([]);
-
   const value = useMemo(() => {
     return {
       alerts,
@@ -42,5 +41,6 @@ export const useAlerts = () => {
     addAlert,
     alerts: context.alerts,
     removeAlert,
+    setAlerts: context.setAlerts,
   };
 }
