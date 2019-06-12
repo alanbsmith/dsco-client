@@ -11,6 +11,7 @@ import { Divider } from '../../elements/Divider';
 import { RightDrawer } from '../../components/RightDrawer';
 import { UpdateAccountForm } from './UpdateAccountForm';
 import { ButtonList } from '../../elements/ButtonList';
+import { ButtonLink } from '../../elements/ButtonLink';
 
 export function Account() {
   const { currentUser } = useCurrentUser();
@@ -57,7 +58,7 @@ export function Account() {
         </Box>
         <Divider />
         <Box alignItems="flex-end">
-          <Button variant="ghostDanger" size="small" onClick={() => setIsDeleteAccountOpen(true)}>Delete Account</Button>
+          <ButtonLink variant="danger" onClick={() => setIsDeleteAccountOpen(true)}>Delete Account</ButtonLink>
         </Box>
       </PageLayout.Main>
     </>

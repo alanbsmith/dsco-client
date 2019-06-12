@@ -12,6 +12,7 @@ const secondary = 'hsl(198, 100%, 25%)';
 const danger = 'hsl(348, 100%, 45%)';
 const dangerDark = 'hsl(348, 100%, 15%)';
 const dangerLight = 'hsl(348, 100%, 75%)';
+const dangerLighter = 'hsl(348, 100%, 85%)';
 const info = 'hsl(198, 100%, 45%)';
 const infoDark = 'hsl(198, 100%, 15%)';
 const infoLight = 'hsl(198, 100%, 75%)';
@@ -82,6 +83,7 @@ const theme = {
     },
     primary: {
       background: success,
+      color: successDark,
       '&:hover, &:focus': {
         background: successLight,
       },
@@ -104,28 +106,30 @@ const theme = {
     },
     success: {
       background: success,
+      color: successDark,
       '&:hover, &:focus': {
         background: successLight,
       },
     },
     info: {
       background: info,
+      color: infoDark,
       '&:hover, &:focus': {
         background: infoLight,
       },
     },
     warning: {
       background: warning,
+      color: warningDark,
       '&:hover, &:focus': {
         background: warningLight,
       },
     },
     danger: {
-      background: danger,
-      color: white,
+      background: dangerLight,
+      color: dangerDark,
       '&:hover, &:focus': {
-        background: dangerLight,
-        color: chrome020,
+        background: dangerLighter,
       },
     },
   },
@@ -151,6 +155,14 @@ const theme = {
     danger: {
       background: dangerLight,
       color: dangerDark,
+    }
+  },
+  links: {
+    danger: {
+      color: dangerDark,
+      '&:hover, &:focus': {
+        color: danger,
+      },
     }
   }
 };

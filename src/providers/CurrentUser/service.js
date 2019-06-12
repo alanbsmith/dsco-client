@@ -27,7 +27,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Failed to get user information';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.FETCH_CURRENT_USER_FAILURE });
       })
@@ -47,7 +47,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Login attempt was unsuccessful';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.LOGIN_FAILURE });
       })
@@ -60,7 +60,7 @@ class CurrentUserService {
       .then(({ data }) => {
         const { user, token } = data.signup;
         AuthToken.set(token);
-        this.addAlert({ type: 'success', message: 'signup!' });
+        this.addAlert({ type: 'success', message: 'Your account has been created! Welcome to DSCO!' });
         return this.dispatch({
           type: ActionTypes.SIGNUP_SUCCESS,
           payload: user,
@@ -68,7 +68,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Your account was not successfully created';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.SIGNUP_FAILURE });
       })
@@ -88,8 +88,8 @@ class CurrentUserService {
         })
       })
       .catch((err) => {
-        const { message } = err.graphQLErrors[0];
-        this.addAlert({ type: 'danger', message });
+        console.warn(err);
+        this.addAlert({ type: 'danger', message: 'Email verification was unsuccessful' });
         this.dispatch({ type: ActionTypes.VERIFY_EMAIL_FAILURE });
       })
   }
@@ -104,8 +104,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
-        this.addAlert({ type: 'danger', message });
+        this.addAlert({ type: 'danger', message: 'Forgot password request was unsuccessful' });
         this.dispatch({ type: ActionTypes.FORGOT_PASSWORD_FAILURE });
       })
   }
@@ -117,7 +116,7 @@ class CurrentUserService {
       .then(({ data }) => {
         const { user, token } = data.resetPassword;
         AuthToken.set(token);
-        this.addAlert({ type: 'success', message: 'resetPassword!' });
+        this.addAlert({ type: 'success', message: 'Your password has been successfully reset!' });
         return this.dispatch({
           type: ActionTypes.RESET_PASSWORD_SUCCESS,
           payload: user,
@@ -125,7 +124,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Your request to reset your password was unsuccessful';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.RESET_PASSWORD_FAILURE });
       })
@@ -146,8 +145,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
-        this.addAlert({ type: 'danger', message });
+        this.addAlert({ type: 'danger', message: 'Your attempt to update your account was unsuccessful' });
         this.dispatch({ type: ActionTypes.UPDATE_CURRENT_USER_FAILURE });
       })
   }
@@ -157,13 +155,12 @@ class CurrentUserService {
     await this.destroyCurrentUserMutation({ variables: { input: id } })
       .then(({ data }) => {
         AuthToken.delete();
-        this.addAlert({ type: 'success', message: 'destroyCurrentUser!' });
+        this.addAlert({ type: 'success', message: 'Your account has been successfully deleted' });
         this.dispatch({ type: ActionTypes.DESTROY_CURRENT_USER_SUCCESS })
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
-        this.addAlert({ type: 'danger', message });
+        this.addAlert({ type: 'danger', message: 'Your delete account request was unsuccessful' });
         this.dispatch({ type: ActionTypes.DESTROY_CURRENT_USER_FAILURE });
       })
   }

@@ -23,7 +23,7 @@ const loginSchema = yup.object().shape({
 });
 
 export function LoginForm() {
-  const { currentUserService } = useCurrentUser();
+  const { currentUserService, currentUserLoading } = useCurrentUser();
 
   const initialValues = {
     email: '',
@@ -49,7 +49,7 @@ export function LoginForm() {
             <Button variant="ghost" as={Link} to="/signup">
               Signup
         </Button>
-            <Button type="submit" disabled={!isValid} variant={isValid ? 'primary' : 'disabled'}>Login</Button>
+            <Button type="submit" disabled={!isValid || currentUserLoading} variant={isValid ? 'primary' : 'disabled'}>Login</Button>
           </ButtonList>
           <Box justifyContent="flex-end" mt={2}>
             <Link to="/forgot_password" fontSize="sm">Forgot Password?</Link>
