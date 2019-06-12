@@ -27,7 +27,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Failed to get user information';
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Failed to get user information';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.FETCH_CURRENT_USER_FAILURE });
       })
@@ -47,7 +47,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Login attempt was unsuccessful';
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Login attempt was unsuccessful';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.LOGIN_FAILURE });
       })
@@ -68,7 +68,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Your account was not successfully created';
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Your account was not successfully created';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.SIGNUP_FAILURE });
       })
@@ -124,7 +124,7 @@ class CurrentUserService {
       })
       .catch((err) => {
         console.warn(err);
-        const message = err.graphQLErrors ? err.graphQLErrors[0] : 'Your request to reset your password was unsuccessful';
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Your request to reset your password was unsuccessful';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.RESET_PASSWORD_FAILURE });
       })
