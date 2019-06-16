@@ -4,6 +4,7 @@ import { themeGet } from 'styled-system';
 import { Link } from 'react-router-dom';
 
 import { Box } from '../../elements/Box';
+import { ResponsiveLayout } from '../../elements/ResponsiveLayout';
 
 import { SideNav } from '../SideNav';
 
@@ -12,9 +13,6 @@ import { useCurrentUser } from '../../providers/CurrentUser';
 import { px2rem } from '../../config/utils';
 
 export const Navbar = styled(Box)`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
   left: 0;
   height: ${px2rem(40)};
   padding: ${px2rem(4)}; ${px2rem(8)};
@@ -28,6 +26,16 @@ Navbar.defaultProps = {
   as: 'nav',
   bg: 'chrome010',
 };
+
+const NavLayout = styled(ResponsiveLayout)`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  
+  @media (max-width: 700px) {
+    flex: 1;
+  }
+`;
 
 const NavLink = styled(Link)`
   color: ${themeGet('colors.chrome100')};
@@ -59,16 +67,20 @@ export const TopNav = () => {
   const [isLeftNavOpen, setLeftNavOpen] = useState(false);
 
   return (
-    <Navbar>
-      <Box alignItems="center">
-        <MenuToggleButton aria-label="toggle side nav menu" aria-pressed={isLeftNavOpen} onClick={() => setLeftNavOpen(!isLeftNavOpen)}>𝌆</MenuToggleButton>
-        <BrandLink to="/">DSCO</BrandLink>
-      </Box>
-      {currentUser &&
-        <NavLink to="/account">
-          Hi, {currentUser.firstName}!
+    <>
+      <Navbar>
+        <NavLayout>
+          <Box alignItems="center">
+            <MenuToggleButton aria-label="toggle side nav menu" aria-pressed={isLeftNavOpen} onClick={() => setLeftNavOpen(!isLeftNavOpen)}>𝌆</MenuToggleButton>
+            <BrandLink to="/">DSCO</BrandLink>
+          </Box>
+          {currentUser &&
+            <NavLink to="/account">
+              Hi, {currentUser.firstName}!
         </NavLink>}
+        </NavLayout>
+      </Navbar>
       <SideNav isOpen={isLeftNavOpen} handleClose={() => setLeftNavOpen(false)} />
-    </Navbar>
+    </>
   );
 };

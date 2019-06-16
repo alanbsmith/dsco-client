@@ -19,7 +19,7 @@ export const SideDrawer = Base('nav')`
   width: ${px2rem(320)};
   position: fixed;
   top: 0;
-  z-index: 2;
+  z-index: 3;
   transition: left 0.3s ease;
   &.open {
     left: 0;
@@ -95,6 +95,7 @@ const SideDrawerMask = Base()`
   transition: opacity 0.3s 0.1s ease-in-out;
   opacity: 0;
   display: none;
+  z-index: 2;
 
   &.visible {
     display: block;

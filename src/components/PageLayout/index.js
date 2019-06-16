@@ -1,15 +1,16 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { themeGet } from 'styled-system';
 
 import { Box } from '../../elements/Box';
+import { ResponsiveLayout } from '../../elements/ResponsiveLayout';
 import { px2rem } from '../../config/utils';
 
 // import logo from './logo.svg';
 import logo2 from './logo2.svg';
 
-export const Header = styled(Box)`
+const StyledHeader = styled(Box)`
   background-color: ${themeGet('colors.chrome092')};
-
   background-position: 50% 40%;
   background-repeat: no-repeat;
   background-image: url(${logo2});
@@ -20,20 +21,32 @@ export const Header = styled(Box)`
   justify-content: flex-end;
 `;
 
-Header.defaultProps = {
+StyledHeader.defaultProps = {
   as: 'header',
 };
 
-export const Main = styled(Box)`
+export const Header = ({ children, ...props }) => (
+  <StyledHeader {...props}>
+    <ResponsiveLayout>{children}</ResponsiveLayout>
+  </StyledHeader>
+);
+
+const StyledMain = styled(Box)`
   flex: 1;
   flex-direction: column;
   padding: ${px2rem(32)} ${px2rem(16)};
 `;
 
-Main.defaultProps = {
+StyledMain.defaultProps = {
   as: 'main',
   bg: 'chrome098',
 };
+
+export const Main = ({ children, ...props }) => (
+  <StyledMain {...props}>
+    <ResponsiveLayout>{children}</ResponsiveLayout>
+  </StyledMain>
+);
 
 export const Footer = styled(Box)`
   padding: ${px2rem(16)};
