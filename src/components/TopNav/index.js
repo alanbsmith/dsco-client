@@ -31,6 +31,7 @@ const NavLayout = styled(ResponsiveLayout)`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   
   @media (max-width: 700px) {
     flex: 1;

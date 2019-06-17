@@ -3,6 +3,7 @@ import { px2rem } from '../../config/utils';
 
 export const Form = Base('form')`
   display: flex;
+  flex: 1;
   flex-direction: column;
   max-width: ${px2rem(400)};
 

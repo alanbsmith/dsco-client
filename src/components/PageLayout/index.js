@@ -14,11 +14,9 @@ const StyledHeader = styled(Box)`
   background-position: 50% 40%;
   background-repeat: no-repeat;
   background-image: url(${logo2});
-  flex-direction: column;
   margin-top: ${px2rem(40)};
   min-height: ${px2rem(192)};
   padding: ${px2rem(16)};
-  justify-content: flex-end;
 `;
 
 StyledHeader.defaultProps = {
@@ -27,13 +25,12 @@ StyledHeader.defaultProps = {
 
 export const Header = ({ children, ...props }) => (
   <StyledHeader {...props}>
-    <ResponsiveLayout>{children}</ResponsiveLayout>
+    <ResponsiveLayout display="flex" flexDirection="column" justifyContent="flex-end">{children}</ResponsiveLayout>
   </StyledHeader>
 );
 
 const StyledMain = styled(Box)`
   flex: 1;
-  flex-direction: column;
   padding: ${px2rem(32)} ${px2rem(16)};
 `;
 
