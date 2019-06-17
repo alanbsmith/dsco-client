@@ -76,7 +76,7 @@ export function SignupForm() {
           <ValidatedTextField disabled={!values.password.length} name="passwordConfirm" label="confirm password" type="password" errors={errors} touched={touched} />
           <ButtonList>
             <Button variant="ghost" as={Link} to="/login">Login</Button>
-            <Button type="submit" disabled={!isValid || currentUserLoading} variant={isValid ? 'primary' : 'disabled'}>Signup</Button>
+            <Button type="submit" disabled={!isValid || currentUserLoading} variant={isValid || currentUserLoading ? 'primary' : 'disabled'}>Signup</Button>
           </ButtonList>
         </Form>
       )}

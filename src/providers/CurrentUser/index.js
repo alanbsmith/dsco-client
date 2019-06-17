@@ -46,8 +46,7 @@ export const CurrentUserProvider = props => {
         payload: data.currentUser
       });
     }
-    if (err) {
-      console.warn(err);
+    if (err || (!loading && !data)) {
       return dispatch({
         type: ActionTypes.FETCH_CURRENT_USER_FAILURE
       })
