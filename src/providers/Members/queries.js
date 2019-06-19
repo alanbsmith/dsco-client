@@ -4,6 +4,7 @@ export const memberParams = `
   id
   userId
   groupId
+  isOrganizer
 `;
 
 // queries

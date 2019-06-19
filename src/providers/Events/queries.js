@@ -83,3 +83,11 @@ export const REMOVE_ATTENDEE = gql`
     }
   }
 `;
+
+export const SCHEDULE_SURVEY = gql`
+  mutation SchedulePostEventSurvey($input: PostEventSurveyInput!) {
+    schedulePostEventSurvey(input: $input) {
+      status
+    }
+  }
+`;

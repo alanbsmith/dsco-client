@@ -9,6 +9,7 @@ class EventService {
     this.destroyMutation = hooks.destroy;
     this.addAttendeeMutation = hooks.addAttendee;
     this.removeAttendeeMutation = hooks.removeAttendee;
+    this.scheduleSurveyMutation = hooks.scheduleSurvey;
     this.refetchQuery = hooks.refetch;
   }
 
@@ -40,7 +41,7 @@ class EventService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Event failed to create';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.CREATE_EVENT_FAILURE });
       })
@@ -59,7 +60,7 @@ class EventService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Event failed to update';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.UPDATE_EVENT_FAILURE });
       })
@@ -78,7 +79,7 @@ class EventService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Event failed to be deleted';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.DESTROY_EVENT_FAILURE });
       })
@@ -98,7 +99,7 @@ class EventService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'RSVP failed';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.ADD_ATTENDEE_FAILURE });
       })
@@ -118,9 +119,25 @@ class EventService {
       })
       .catch((err) => {
         console.warn(err);
-        const { message } = err.graphQLErrors[0];
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'RSVP failed';
         this.addAlert({ type: 'danger', message });
         this.dispatch({ type: ActionTypes.REMOVE_ATTENDEE_FAILURE });
+      })
+  }
+
+  async scheduleSurvey(input) {
+    this.dispatch({ type: ActionTypes.SCHEDULE_SURVEY_REQUEST });
+
+    await this.scheduleSurveyMutation({ variables: { input } })
+      .then(({ data }) => {
+        this.addAlert({ type: 'success', message: "Your survey has been scheduled!" });
+        this.dispatch({ type: ActionTypes.SCHEDULE_SURVEY_SUCCESS });
+      })
+      .catch((err) => {
+        console.warn(err);
+        const message = err.graphQLErrors ? err.graphQLErrors[0].message : 'Survey was not scheduled';
+        this.addAlert({ type: 'danger', message });
+        this.dispatch({ type: ActionTypes.SCHEDULE_SURVEY_FAILURE });
       })
   }
 }

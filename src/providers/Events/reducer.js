@@ -95,6 +95,14 @@ export function reducer(state, action) {
     case ActionTypes.REMOVE_ATTENDEE_FAILURE:
       return { ...state, loading: false };
 
+    // schedule survey
+    case ActionTypes.SCHEDULE_SURVEY_REQUEST:
+        return { ...state, loading: true };
+      case ActionTypes.SCHEDULE_SURVEY_SUCCESS:
+        return { ...state, loading: false, };
+      case ActionTypes.SCHEDULE_SURVEY_FAILURE:
+        return { ...state, loading: false };
+
     // default  
     default:
       return state;

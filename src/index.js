@@ -16,6 +16,7 @@ import { MembersProvider } from './providers/Members';
 // pages
 import { Account } from './pages/Account';
 import { CreateEvent } from './pages/CreateEvent';
+import { EventSurvey } from './pages/EventSurvey';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -64,6 +65,7 @@ ReactDOM.render(
                       <Route exact path="/" component={Home} />
                       <ProtectedRoute exact path="/account" component={Account} />
                       <OrganizerRoute exact path="/events/create" component={CreateEvent} />
+                      <OrganizerRoute exact path="/events/schedule_survey" component={EventSurvey} />
                       <Route exact path="/forgot_password" component={ForgotPassword} />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/reset_password/:token" component={ResetPassword} />

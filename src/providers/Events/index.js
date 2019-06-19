@@ -5,7 +5,7 @@ import { useAlerts } from '../Alerts';
 
 import * as ActionTypes from './ActionTypes';
 import EventService from './service';
-import { eventsQuery, CREATE_EVENT, UPDATE_EVENT, DESTROY_EVENT, ADD_ATTENDEE, REMOVE_ATTENDEE } from './queries';
+import { eventsQuery, CREATE_EVENT, UPDATE_EVENT, DESTROY_EVENT, ADD_ATTENDEE, REMOVE_ATTENDEE, SCHEDULE_SURVEY } from './queries';
 import { initialState, reducer } from './reducer';
 
 const EventsContext = createContext();
@@ -53,6 +53,7 @@ export function useEvents() {
   const [destroy] = useMutation(DESTROY_EVENT);
   const [addAttendee] = useMutation(ADD_ATTENDEE);
   const [removeAttendee] = useMutation(REMOVE_ATTENDEE);
+  const [scheduleSurvey] = useMutation(SCHEDULE_SURVEY);
   const { addAlert } = useAlerts();
 
   const eventService = new EventService({
@@ -63,6 +64,7 @@ export function useEvents() {
     destroy,
     addAttendee,
     removeAttendee,
+    scheduleSurvey,
     refetch: context.refetch,
   });
 
