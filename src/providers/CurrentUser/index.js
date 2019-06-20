@@ -11,6 +11,7 @@ import {
   LOGIN,
   SIGNUP,
   VERIFY_EMAIL,
+  SEND_VERIFICATION_EMAIL,
   FORGOT_PASSWORD,
   RESET_PASSWORD,
   UPDATE_CURRENT_USER,
@@ -64,6 +65,7 @@ export const useCurrentUser = () => {
   const [login] = useMutation(LOGIN);
   const [signup] = useMutation(SIGNUP);
   const [verifyEmail] = useMutation(VERIFY_EMAIL);
+  const [sendVerificationEmail] = useMutation(SEND_VERIFICATION_EMAIL);
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
   const [resetPassword] = useMutation(RESET_PASSWORD);
   const [updateCurrentUser] = useMutation(UPDATE_CURRENT_USER);
@@ -75,6 +77,7 @@ export const useCurrentUser = () => {
     login,
     signup,
     verifyEmail,
+    sendVerificationEmail,
     forgotPassword,
     resetPassword,
     updateCurrentUser,

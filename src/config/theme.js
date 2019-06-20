@@ -7,6 +7,9 @@ const chrome040 = 'hsl(198, 10%, 40%)';
 const chrome092 = 'hsl(198, 10%, 92%)';
 const white = 'hsl(198, 0%, 100%)';
 
+// related hues
+const violet = 'hsl(288, 100%, 45%)';
+
 const secondary = 'hsl(198, 100%, 25%)';
 
 const danger = 'hsl(348, 100%, 45%)';
@@ -163,6 +166,15 @@ const theme = {
       '&:hover, &:focus': {
         color: danger,
       },
+    }
+  },
+  badges: {
+    verified: {
+      background: successLight,
+    },
+    admin: {
+      background: violet,
+      color: white,
     }
   }
 };

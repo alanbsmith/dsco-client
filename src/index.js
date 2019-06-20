@@ -20,6 +20,7 @@ import { EventSurvey } from './pages/EventSurvey';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { ManageSubscriptions } from './pages/ManageSubscriptions';
 import { ResetPassword } from './pages/ResetPassword';
 import { Signup } from './pages/Signup';
 import { VerifyEmail } from './pages/VerifyEmail';
@@ -68,6 +69,7 @@ ReactDOM.render(
                       <OrganizerRoute exact path="/events/schedule_survey" component={EventSurvey} />
                       <Route exact path="/forgot_password" component={ForgotPassword} />
                       <Route exact path="/login" component={Login} />
+                      <Route exact path="/manage_subscriptions/:token" component={ManageSubscriptions} />
                       <Route exact path="/reset_password/:token" component={ResetPassword} />
                       <Route exact path="/signup" component={Signup} />
                       <Route exact path="/verify_email/:token" component={VerifyEmail} />

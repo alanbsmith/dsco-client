@@ -57,6 +57,14 @@ export const VERIFY_EMAIL = gql`
   }
 `;
 
+export const SEND_VERIFICATION_EMAIL = gql`
+  mutation SendVerificationEmail {
+    sendVerificationEmail {
+      status
+    }
+  }
+`;
+
 export const FORGOT_PASSWORD = gql`
   mutation ForgotPassword($input: ForgotPasswordInput!) {
     forgotPassword(input: $input) {

@@ -17,7 +17,7 @@ export const VerifyEmail = ({ match, history }) => {
     verify();
   }, [currentUserService, token])
 
-  history.push('/');
+  history.push('/account');
 
   return (
     <>

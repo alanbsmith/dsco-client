@@ -58,6 +58,13 @@ export function reducer(state, action) {
       return { currentUser: action.payload, loading: false };
     case ActionTypes.VERIFY_EMAIL_FAILURE:
       return { ...state, loading: false };
+    // verify email
+    case ActionTypes.SEND_VERIFICATION_EMAIL_REQUEST:
+      return { ...state, loading: true };
+    case ActionTypes.SEND_VERIFICATION_EMAIL_SUCCESS:
+      return { ...state, loading: false };
+    case ActionTypes.SEND_VERIFICATION_EMAIL_FAILURE:
+      return { ...state, loading: false };
 
     // reset password
     case ActionTypes.RESET_PASSWORD_REQUEST:

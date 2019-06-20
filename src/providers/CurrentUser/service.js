@@ -9,6 +9,7 @@ class CurrentUserService {
     this.loginMutation = hooks.login;
     this.signupMutation = hooks.signup;
     this.verifyEmailMutation = hooks.verifyEmail;
+    this.sendVerificationEmailMutation = hooks.sendVerificationEmail;
     this.forgotPasswordMutation = hooks.forgotPassword;
     this.resetPasswordMutation = hooks.resetPassword;
     this.updateCurrentUserMutation = hooks.updateCurrentUser;
@@ -91,6 +92,22 @@ class CurrentUserService {
         console.warn(err);
         this.addAlert({ type: 'danger', message: 'Email verification was unsuccessful' });
         this.dispatch({ type: ActionTypes.VERIFY_EMAIL_FAILURE });
+      })
+  }
+
+  async sendVerificationEmail() {
+    // this.dispatch({ type: ActionTypes.SEND_VERIFICATION_EMAIL_REQUEST });
+
+    await this.sendVerificationEmailMutation()
+      .then(({ data }) => {
+        this.addAlert({ type: 'success', message: 'Thanks! We\'ll send you and email shortly!' });
+        return;
+        // return this.dispatch({ type: ActionTypes.SEND_VERIFICATION_EMAIL_SUCCESS })
+      })
+      .catch((err) => {
+        console.warn(err);
+        this.addAlert({ type: 'danger', message: 'Failed to send verification email' });
+        // this.dispatch({ type: ActionTypes.SEND_VERIFICATION_EMAIL_FAILURE });
       })
   }
 
