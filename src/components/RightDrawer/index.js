@@ -72,7 +72,6 @@ const SideDrawerMask = Base()`
   transition: opacity 0.3s 0.1s ease-in-out;
   opacity: 0;
   display: none;
-  z-index: 1;
 
   &.visible {
     display: block;
