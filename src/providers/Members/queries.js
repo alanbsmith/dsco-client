@@ -5,6 +5,10 @@ export const memberParams = `
   userId
   groupId
   isOrganizer
+  user {
+    fullName
+    hasVerifiedEmail
+  }
 `;
 
 // queries

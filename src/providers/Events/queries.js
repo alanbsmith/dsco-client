@@ -13,6 +13,10 @@ export const eventParams = `
     eventId
     userId
     hasDeclined
+    user {
+      id
+      fullName
+    }
   }
   startTime
   endTime

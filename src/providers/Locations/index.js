@@ -5,7 +5,7 @@ import { useAlerts } from '../Alerts';
 
 import * as ActionTypes from './ActionTypes';
 import LocationsService from './service';
-import { locationsQuery, createLocation, updateLocation, destroyLocation } from './queries';
+import { locationsQuery, CREATE_LOCATION, updateLocation, destroyLocation } from './queries';
 import { initialState, reducer } from './reducer';
 
 const LocationsContext = createContext();
@@ -48,7 +48,7 @@ export const LocationsProvider = props => {
 
 export function useLocations() {
   const context = useContext(LocationsContext);
-  const [create] = useMutation(createLocation());
+  const [create] = useMutation(CREATE_LOCATION);
   const [update] = useMutation(updateLocation());
   const [destroy] = useMutation(destroyLocation());
   const { addAlert } = useAlerts();

@@ -1,7 +1,7 @@
 import React from 'react';
 // components
 import { PageLayout } from '../../components/PageLayout';
-import { CreateEventForm } from './CreateEventForm';
+import { CreateEventForm } from '../Organizers/CreateEventForm';
 // elements
 import { Heading } from '../../elements/Heading';
 

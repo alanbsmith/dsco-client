@@ -52,6 +52,7 @@ const Body = Base(Box)`
   flex-direction: column;
   justify-content: space-between;
   padding: ${px2rem(16)};
+  overflow-y: scroll;
 `;
 
 const MenuToggleButton = Base('button')`

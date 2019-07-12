@@ -11,14 +11,14 @@ class LocationService {
 
   async create(input) {
     this.dispatch({ type: ActionTypes.CREATE_LOCATION_REQUEST });
-
-    await this.createMutation({ variables: { input } })
+    return await this.createMutation({ variables: { input } })
       .then(({ data }) => {
         this.addAlert({ type: 'success', message: 'Location created!' });
-        return this.dispatch({
+        this.dispatch({
           type: ActionTypes.CREATE_LOCATION_SUCCESS,
           payload: data.createLocation,
         })
+        return data.createLocation;
       })
       .catch((err) => {
         console.warn(err);

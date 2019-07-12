@@ -36,15 +36,13 @@ export function locationQuery(id, params = locationParams) {
 }
 
 // mutations
-export function createLocation(params = locationParams) {
-  return gql`
-    mutation CreateLocation($input: LocationInput!) {
-      createLocation(input: $input) {
-        ${params}
-      }
+export const CREATE_LOCATION = gql`
+  mutation CreateLocation($input: LocationInput!) {
+    createLocation(input: $input) {
+      ${locationParams}
     }
-  `;
-}
+  }
+`;
 
 export function updateLocation(params = locationParams) {
   return gql`
