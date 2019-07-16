@@ -5,6 +5,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Global } from '@emotion/core';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import * as Sentry from '@sentry/browser';
 
 import App from './App';
 // providers
@@ -33,6 +34,9 @@ import * as serviceWorker from './serviceWorker';
 import theme from './config/theme';
 import globalStyles from './config/globalStyles';
 import { AuthToken } from './utils/authToken';
+
+// sentry logging
+Sentry.init({ dsn: "https://35c24169d45e414c95bb45cc6c89282a@sentry.io/1506326" });
 
 const uri = process.env.NODE_ENV === 'production' ? 'https://dsco-api.herokuapp.com/api' : 'http://localhost:8080/api';
 

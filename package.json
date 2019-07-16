@@ -6,6 +6,7 @@
     "@apollo/react-hooks": "0.1.0-beta.7",
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.11",
+    "@sentry/browser": "^5.5.0",
     "@styled-system/should-forward-prop": "^1.0.0",
     "apollo-boost": "^0.4.0",
     "emotion": "^10.0.9",
